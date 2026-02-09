@@ -15,9 +15,9 @@ VibroBraille is a distributed assistive system that converts **AI-simplified mea
 
 | Conductor (Web Dashboard) | Mobile Haptic App |
 |:---:|:---:|
-| ![Web Dashboard Screenshot](assets/Screenshot\ 2026-02-10\ 020110.png) | ![Mobile App Screenshot](assets/Screenshot\ 2026-02-10\ 020054.png) |
-| ![QR Pairing & IP Connect](assets/Screenshot\ 2026-02-10\ 020025.png) | ![Clipboard Mode Gif](assets/copied_clipboard_relay.gif) |
-| ![PDF Intake to Braille Gif](assets/PDF\ intake\ to\ braile.gif) | ![Mobile App Demo Gif](assets/vibrobraile_mob.gif) |
+| ![Web Dashboard Screenshot](assets/linkage.png) | ![Mobile App Screenshot](assets/post_linkage.png) |
+| ![QR Pairing & IP Connect](assets/linkage.png) | ![Clipboard Mode Gif](assets/copied_clipboard_relay.gif) |
+| ![PDF Intake to Braille Gif](assets/PDF_intake_to_braile.gif) | ![Mobile App Demo Gif](assets/copied_clipboard_relay.gif) |
 
 ---
 
@@ -74,12 +74,11 @@ User Input (text/pdf/image)
 
 Put these files in `assets/` exactly (filenames are case-sensitive):
 
-- `Screenshot 2026-02-10 020110.png` — Web dashboard screenshot (full)
-- `Screenshot 2026-02-10 020054.png` — Mobile app screenshot (connected)
-- `Screenshot 2026-02-10 020025.png` — IP entry / QR dialog screenshot
+- `linkage.png` — IP entry / QR dialog screenshot
+- `post_linkage.png` — Mobile app screenshot (connected)
+- `pre_state.png` — Idle / Ready to receive tactile stream
 - `copied_clipboard_relay.gif` — Demo: copy text → phone vibrates
 - `PDF intake to braile.gif` — Demo: upload PDF → tactile output
-
 
 > After adding assets run `git add assets/* && git commit -m "Add demo assets"`.
 
@@ -319,7 +318,7 @@ MIT — see `LICENSE`.
 
 ---
 
-## Appendix: Quick checklist before demo 
+## Appendix: Quick checklist before demo
 
 1. PC and phone on same Wi-Fi.
 2. `cd web && node server.js` and dashboard reachable.
@@ -331,3 +330,4 @@ MIT — see `LICENSE`.
 
 ---
 
+```
