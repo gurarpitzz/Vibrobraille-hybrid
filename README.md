@@ -314,8 +314,7 @@ MIT — see `LICENSE`.
 
 * Authors: **Gurarpit Singh**, **Mehardeep Singh**
 * AI: Google Gemini 1.5 Pro
-* Built for: [Hackathon Name]
-
+* Built for: Gemini 3 Hackathon
 ---
 
 ## Appendix: Quick checklist before demo
@@ -328,6 +327,3 @@ MIT — see `LICENSE`.
 6. Copy-paste a paragraph → phone vibrates.
 7. If any failures, consult Troubleshooting section above.
 
----
-
-```
