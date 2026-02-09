@@ -1,6 +1,6 @@
 class ReadingSpeedProfiler {
   double currentWpm = 20.0;
-  List<DateTime> _inputTimestamps = [];
+  final List<DateTime> _inputTimestamps = [];
 
   /// Records a character input to calculate WPM.
   void recordInput() {

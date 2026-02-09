@@ -2,62 +2,88 @@ import 'dart:convert';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class SocketManager {
-  final String url;
+  String url;
   WebSocketChannel? _channel;
-  final Function(String) onMessageReceived;
+  final Function(Map<String, dynamic>) onEventReceived;
   final Function() onConnected;
   final Function() onDisconnected;
 
   SocketManager({
     required this.url,
-    required this.onMessageReceived,
+    required this.onEventReceived,
     required this.onConnected,
     required this.onDisconnected,
   });
 
-  void connect(String sessionId) async {
+  void connect(String sessionId, {String? newUrl}) async {
+    if (newUrl != null) {
+      url = newUrl;
+    }
     if (_channel != null) {
       _channel!.sink.close();
     }
 
     try {
-      final uri = Uri.parse(url);
+      print("🔌 CONNECTING TO: ${newUrl ?? url}");
+      final uri = Uri.parse(newUrl ?? url);
+      print("📍 Parsed URI: $uri");
+
       _channel = WebSocketChannel.connect(uri);
       await _channel!.ready;
+      print("✅ WebSocket READY");
 
       // Identify this device
-      _channel!.sink
-          .add(jsonEncode({'type': 'IDENTIFY', 'sessionId': sessionId}));
+      final identifyMsg =
+          jsonEncode({'type': 'IDENTIFY', 'sessionId': sessionId});
+      print("📤 Sending IDENTIFY: $identifyMsg");
+      _channel!.sink.add(identifyMsg);
 
-      onConnected();
-
+      print("👂 Setting up stream listener...");
       _channel!.stream.listen(
         (message) {
-          print("WS Received: $message"); // DEBUG LOG
+          print("🌐 RAW WS MESSAGE: $message");
           try {
             final data = jsonDecode(message);
-            if (data['type'] == 'BRAILLE_TEXT') {
-              print("WS Payload: ${data['payload']}"); // DEBUG LOG
-              onMessageReceived(data['payload']);
-            } else {
-              print("WS Unknown Type: ${data['type']}");
-            }
+            print("✅ DECODED: ${data.toString()}");
+            onEventReceived(data);
           } catch (e) {
-            print("WS Decode Error: $e");
+            print("❌ WS Decode Error: $e");
           }
         },
         onDone: () {
-          print("WebSocket Stream Done");
+          print("⚠️ WebSocket stream closed");
           onDisconnected();
         },
         onError: (e) {
-          print("WebSocket Stream Error: $e");
+          print("❌ WebSocket error: $e");
           onDisconnected();
         },
       );
+
+      print("✅ Stream listener active");
+      onConnected();
     } catch (e) {
-      print("Connection failed: $e");
+      print("❌ Connection failed: $e");
       onDisconnected();
+    }
+  }
+
+  void sendSignal(String signal) {
+    if (_channel != null) {
+      _channel!.sink.add(jsonEncode({
+        'type': 'SIGNAL',
+        'signal': signal,
+      }));
+    }
+  }
+
+  void sendSignalWithData(String signal, dynamic value) {
+    if (_channel != null) {
+      _channel!.sink.add(jsonEncode({
+        'type': 'SIGNAL',
+        'signal': signal,
+        'value': value,
+      }));
     }
   }
 

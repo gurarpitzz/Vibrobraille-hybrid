@@ -59,11 +59,41 @@ class HapticBridge(private val context: Context) : MethodChannel.MethodCallHandl
     }
 
     private fun playWaveform(timings: LongArray, amplitudes: IntArray) {
+        // Stop any previous vibration to prevent overlap issues
+        try {
+            vibrator.cancel()
+        } catch (e: Exception) {
+            android.util.Log.e("VibroHaptics", "Error cancelling previous vibration: ${e.message}")
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Apply motor scale to amplitudes
-            val scaledAmplitudes = amplitudes.map { (it * motorScale).toInt().coerceIn(0, 255) }.toIntArray()
-            
-            val effect = VibrationEffect.createWaveform(timings, scaledAmplitudes, -1)
+            val scaled = amplitudes.toMutableList().map { (it * motorScale).toInt().coerceIn(0, 255) }.toMutableList()
+            val times = timings.toMutableList()
+
+            // 🔥 CRITICAL FIX: Android requires first amplitude = 0 (initial delay)
+            // But we must ensure arrays remain same size!
+            // If we add to one, we must add to the other.
+            if (scaled.isNotEmpty() && scaled[0] != 0) {
+                 scaled.add(0, 0)
+                 times.add(0, 10L) // Increase to 10ms to be safe
+                 android.util.Log.d("VibroHaptics", "Added initial 10ms silence padding")
+            }
+
+            android.util.Log.d("VibroHaptics", "Waveform request received - executing vibration")
+            android.util.Log.d("VibroHaptics", "Final timings (${times.size}): $times")
+            android.util.Log.d("VibroHaptics", "Final amplitudes (${scaled.size}): $scaled")
+
+            if (times.size != scaled.size) {
+                android.util.Log.e("VibroHaptics", "MISMATCH: active timings=${times.size}, active amplitudes=${scaled.size}")
+            }
+
+            val effect = VibrationEffect.createWaveform(
+                times.toLongArray(),
+                scaled.toIntArray(),
+                -1
+            )
+
             vibrator.vibrate(effect)
         } else {
             // Fallback for older devices (only timings supported)
