@@ -1,7 +1,7 @@
 
 # VibroBraille Hybrid (V3) — AI-Powered Tactile Literacy
 
-**Winner / Entry for [Hackathon Name]**
+**Winner / Entry for [Navathon: Guru Gobind Singh Indraprastha University (GGSIPU), Delhi]**
 
 > The PC understands. The phone feels. The user reads through touch.
 
