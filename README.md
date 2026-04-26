@@ -19,6 +19,12 @@ VibroBraille is a distributed assistive system that converts **AI-simplified mea
 | ![QR Pairing & IP Connect](assets/linkage.png) | ![Clipboard Mode Gif](assets/copied_clipboard_relay.gif) |
 | ![PDF Intake to Braille Gif](assets/PDF_intake_to_braile.gif) | ![Mobile App Demo Gif](assets/copied_clipboard_relay.gif) |
 
+
+
+https://github.com/user-attachments/assets/2846f517-0be9-4c14-be61-83f08957a8e9
+
+
+
 ---
 
 ## Quick TL;DR (For judges / demo)
