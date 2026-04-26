@@ -320,7 +320,7 @@ MIT — see `LICENSE`.
 
 * Authors: **Gurarpit Singh**, **Mehardeep Singh**
 * AI: Google Gemini 1.5 Pro
-* Built for: Gemini 3 Hackathon
+* Built for: Navathon, Guru Gobind Singh Indraprastha University (GGSIPU), Delhi
 ---
 
 ## Appendix: Quick checklist before demo
